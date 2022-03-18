@@ -1,8 +1,10 @@
 from flask import Flask
 from api.config import DevelopmentConfig, ProductionConfig
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 if os.environ['FLASK_ENV'] == 'production':
     print(os.environ['FLASK_ENV'])

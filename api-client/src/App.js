@@ -1,7 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect} from 'react'
+import axios from "axios";
 
 function App() {
+
+  const [currentMessage, setCurrentMessage] = useState('')
+
+  useEffect(() => {
+    const fetchTime = async () => {
+      const resp = await axios.get('http://127.0.0.1:5000/api');
+      console.log(resp.data)
+      setCurrentMessage(resp.data);
+    };
+    fetchTime();
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +31,7 @@ function App() {
         >
           Learn React
         </a>
+        <p>{currentMessage}</p>
       </header>
     </div>
   );
