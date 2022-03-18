@@ -46,4 +46,4 @@ jobs:
           appdir: "api-server"
         env:
           HD_FLASK_ENV: ${{secrets.FLASK_ENV}}
-          HD_DEVELOPMENT_KEY: ${{secrets.DEVELOPMENT_KEY}}
+          HD_DEVELOPMENT_KEY: ${{secrets.SECRET_KEY}}
