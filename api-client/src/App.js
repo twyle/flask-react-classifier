@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     const fetchTime = async () => {
-      const resp = await axios.get('http://127.0.0.1:5000/api');
+      const resp = await axios.get('https://api-backend-flask-dev.herokuapp.com/');
       console.log(resp.data)
       setCurrentMessage(resp.data);
     };
