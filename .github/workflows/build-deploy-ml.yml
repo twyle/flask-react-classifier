@@ -1,10 +1,10 @@
-name: Flask Back-end Build
+name: Ml Model Build
 
 on:
   push:
-    branches: [ development ]
+    branches: [ main ]
   pull_request:
-    branches: [ development ]
+    branches: [ main ]
   workflow_dispatch:
 
 env:
@@ -26,6 +26,47 @@ jobs:
         cd api-server
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Generate the data
+      run: |
+        cd api-ml
+        python get_data.py    
+        echo "data generated"
+        cd data && ls -R
+
+    - name: Train the model
+      run: |
+        cd api-ml
+        python train.py 
+        echo "model trained"
+        cd models && ls -R
+
+    - uses: actions/upload-artifact@v3
+      name: Upload the model
+      with:
+        name: trained-model
+        path: api-ml/models 
+
+    - uses: actions/download-artifact@v3
+      id: download
+      name: Download the model
+      with:
+        name: trained-model
+        path: api-ml/models
+
+    - name: Display structure of downloaded files
+      run: |
+        ls -R
+        echo ${{steps.download.outputs.download-path}}
+      working-directory: api-ml/models
+
+    - name: Copy trained model to api-server
+      run: |
+        cp -r api-ml/models api-server/api/ 
+
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Saved the trained model.
 
   DeployDev:
     name: Deploy to Dev 
