@@ -4,7 +4,7 @@ import pickle
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig(object):
-    SECRET_KEY = os.environ['DEFAULT_KEY']
+    SECRET_KEY = os.environ['DEVELOPMENT_KEY']
     DEBUG = False
     TESTING = False 
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
